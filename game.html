@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Warrior Cats Life — The Clearing</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/game.css" />
+</head>
+<body class="game">
+
+<!-- Full-screen blackout overlay used for the play→camp transition -->
+<div id="fade-overlay" class="fade-overlay" aria-hidden="true"></div>
+
+<!-- ============ Title Screen ============ -->
+<section id="title-screen" class="screen active">
+  <div class="title-inner">
+    <h1>Warrior Cats Life</h1>
+    <p class="subtitle">A clearing waits for your clan...</p>
+    <button id="play-btn" class="big-btn">Play</button>
+    <button id="reset-btn" class="ghost-btn">Reset save</button>
+    <button id="flag-guide-btn" class="ghost-btn">🏳️ Personality flags</button>
+    <a class="back-link" href="index.html">&laquo; back</a>
+  </div>
+</section>
+
+<!-- ============ Game Screen ============ -->
+<section id="game-screen" class="screen">
+
+  <!-- Top bar -->
+  <header class="top-bar">
+    <div class="day-info">Day <span id="day-num">1</span></div>
+    <div class="title-strip">The Clearing</div>
+    <div class="top-actions">
+      <button id="hunt-btn" class="bar-btn">🐭 Hunt</button>
+      <button id="patrol-btn" class="bar-btn">🚶 Patrol</button>
+      <button id="war-btn" class="bar-btn">⚔️ War</button>
+      <button id="inventory-btn" class="bar-btn">🎒 Food (<span id="inv-count">0</span>)</button>
+      <button id="skip-day-btn" class="bar-btn primary">⏭ Skip Day</button>
+      <button id="back-to-title-btn" class="bar-btn danger">🔄 Reset</button>
+    </div>
+  </header>
+
+  <!-- Game world -->
+  <div id="world-wrap">
+    <div id="world"></div>
+  </div>
+
+  <!-- Relationships side panel -->
+  <aside id="relationships-panel">
+    <h3>Relationships</h3>
+    <div id="relationships-list"></div>
+  </aside>
+
+  <!-- Builder buttons (lower-right): make a cat, build a den -->
+  <div id="builder-panel" class="builder-panel">
+    <button id="add-cat-btn" class="builder-btn" disabled>
+      <span class="builder-icon">🐾</span>
+      <span class="builder-text">Make a cat<span class="builder-hint">build a den first</span></span>
+    </button>
+    <button id="add-den-btn" class="builder-btn">
+      <span class="builder-icon">🏠</span>
+      <span class="builder-text">Build a den</span>
+    </button>
+    <button id="add-tree-btn" class="builder-btn hidden">
+      <span class="builder-icon">🌳</span>
+      <span class="builder-text">Add tree<span class="builder-hint">40 prey</span></span>
+    </button>
+    <button id="add-rock-btn" class="builder-btn hidden">
+      <span class="builder-icon">🪨</span>
+      <span class="builder-text">Add rock<span class="builder-hint">30 prey</span></span>
+    </button>
+  </div>
+
+  <!-- Tutorial pointer (floating arrow that points at the next target) -->
+  <div id="tutorial-pointer" class="tutorial-pointer hidden" aria-hidden="true">
+    <div class="tutorial-pointer-inner">
+      <svg viewBox="0 0 70 40" width="70" height="40">
+        <path d="M6 20 L46 20 M34 6 L50 20 L34 34"
+              stroke="#3a2a05" stroke-width="10"
+              fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M6 20 L46 20 M34 6 L50 20 L34 34"
+              stroke="#ffd76a" stroke-width="6"
+              fill="none" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Guide cat (hidden until the tutorial actually starts) -->
+  <div id="guide" class="guide hidden">
+    <div id="guide-bubble" class="guide-bubble hidden">
+      <p id="guide-text">Welcome.</p>
+      <button id="guide-next" class="guide-next">Next</button>
+    </div>
+    <img id="guide-img" src="img/guide-talking.svg" alt="Guide cat" />
+  </div>
+
+</section>
+
+<!-- ============ Modal: place den ============ -->
+<div id="den-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2>Choose a den to build</h2>
+    <div id="den-choices" class="grid-choices"></div>
+    <div class="modal-actions">
+      <button id="den-cancel" class="ghost-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: create cat ============ -->
+<div id="cat-modal" class="modal hidden">
+  <div class="modal-card wide">
+    <h2>Make a new cat</h2>
+    <div id="cat-role-badge" class="role-badge">Role: <span id="cat-role-text">warrior</span></div>
+    <div class="form-row" id="role-pick-row" style="display:none;">
+      <label>Type</label>
+      <div id="role-choices" class="pill-row"></div>
+    </div>
+    <div class="form-row">
+      <label>Name</label>
+      <input type="text" id="cat-name" maxlength="24" placeholder="Bramblepaw" />
+    </div>
+    <div class="form-row">
+      <label>Gender</label>
+      <div id="gender-choices" class="pill-row">
+        <button class="pill" data-value="she-cat">She-cat</button>
+        <button class="pill" data-value="tom">Tom</button>
+        <button class="pill" data-value="non-binary">Non-binary</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Attracted to</label>
+      <div id="orientation-choices" class="pill-row">
+        <button class="pill" data-value="she-cats">She-cats</button>
+        <button class="pill" data-value="toms">Toms</button>
+        <button class="pill" data-value="any">Anyone</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Personality</label>
+      <button type="button" id="cat-pflag-btn" class="pflag-btn" title="Click to roll new traits">
+        <span id="cat-pflag-swatch" class="pflag-swatch"></span>
+        <span id="cat-pflag-text" class="pflag-text">click to roll</span>
+      </button>
+    </div>
+    <div class="form-row">
+      <label>Pelt color</label>
+      <div id="color-choices" class="swatch-row"></div>
+    </div>
+    <div class="form-row">
+      <label>Pelt design</label>
+      <div id="design-choices" class="pill-row"></div>
+    </div>
+    <div class="form-row">
+      <label>Eye color</label>
+      <div id="eye-choices" class="swatch-row"></div>
+    </div>
+    <div class="preview-row">
+      <div class="preview-label">Preview</div>
+      <div id="cat-preview"></div>
+    </div>
+    <div class="modal-actions">
+      <button id="cat-cancel" class="ghost-btn">Skip</button>
+      <button id="cat-randomize" class="ghost-btn">🎲 Randomize</button>
+      <button id="cat-done" class="big-btn">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: cat stats ============ -->
+<div id="stats-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2 id="stats-name">Cat</h2>
+    <div id="stats-body"></div>
+    <div class="modal-actions">
+      <button id="stats-feed" class="big-btn">Feed</button>
+      <button id="stats-murder" class="ghost-btn danger hidden">🔪 Murder</button>
+      <button id="stats-kill" class="ghost-btn danger hidden">💀 Kill</button>
+      <button id="stats-close" class="ghost-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: patrol picker ============ -->
+<div id="patrol-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2>Send a patrol</h2>
+    <p class="patrol-info">Pick which clanmates patrol together. They'll come back tomorrow with prey, and the patrol will strengthen their bonds.</p>
+    <div id="patrol-cat-list" class="patrol-list"></div>
+    <div class="modal-actions">
+      <button id="patrol-cancel" class="ghost-btn">Cancel</button>
+      <button id="patrol-send" class="big-btn">Send out</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: personality flag legend ============ -->
+<div id="flag-guide-modal" class="modal hidden">
+  <div class="modal-card wide">
+    <h2>Personality flags</h2>
+    <p class="patrol-info">Each cat carries a small flag above their head. The color shows their personality — a striped flag means two traits at once.</p>
+    <div id="flag-guide-list"></div>
+    <div class="modal-actions">
+      <button id="flag-guide-close" class="big-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: mediator session ============ -->
+<div id="mediator-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2>Mediation</h2>
+    <p class="patrol-info">Pick two clanmates and a direction. The mediator can only intervene <b>once every 4 days</b>.</p>
+    <div class="form-row">
+      <label>Cat A</label>
+      <select id="med-cat-a"></select>
+    </div>
+    <div class="form-row">
+      <label>Cat B</label>
+      <select id="med-cat-b"></select>
+    </div>
+    <div class="form-row">
+      <label>Direction</label>
+      <div id="med-dir-choices" class="pill-row">
+        <button class="pill selected" data-value="up" type="button">Improve (+12)</button>
+        <button class="pill" data-value="down" type="button">Worsen (-12)</button>
+      </div>
+    </div>
+    <p id="med-cooldown-info" class="patrol-info"></p>
+    <div class="modal-actions">
+      <button id="med-cancel" class="ghost-btn">Cancel</button>
+      <button id="med-go" class="big-btn">Mediate</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: declare war ============ -->
+<div id="war-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2>Declare war</h2>
+    <p class="patrol-info">Pick which clanmates ride out. They'll come back next Skip Day — some may not return at all. Win the battle and you'll claim new territory.</p>
+    <div id="war-cat-list" class="patrol-list"></div>
+    <div class="form-row">
+      <label>Enemy clan</label>
+      <select id="war-enemy"></select>
+    </div>
+    <div class="modal-actions">
+      <button id="war-cancel" class="ghost-btn">Cancel</button>
+      <button id="war-go" class="big-btn">Ride out</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: gathering ============ -->
+<div id="gathering-modal" class="modal hidden">
+  <div class="modal-card wide">
+    <h2>The Gathering</h2>
+    <p class="patrol-info">Cats from every clan have come to share news under the tree. Click another-clan cat to talk to them — bonds you make can become forbidden romances.</p>
+    <div id="gathering-list"></div>
+    <div class="modal-actions">
+      <button id="gathering-close" class="big-btn">Head home</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: forbidden-cat sneak-in ============ -->
+<div id="sneakin-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2 id="sneakin-title">A stranger in camp!</h2>
+    <p id="sneakin-text"></p>
+    <div class="modal-actions">
+      <button id="sneakin-throw" class="ghost-btn">Throw them out</button>
+      <button id="sneakin-kill"  class="ghost-btn danger">Kill them</button>
+      <button id="sneakin-stay"  class="big-btn">Let them stay</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: leader meeting ============ -->
+<div id="meeting-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2 id="meeting-title">Clan meeting</h2>
+    <div id="meeting-leader" class="meeting-leader"></div>
+    <div id="meeting-recap" class="meeting-recap"></div>
+    <div class="modal-actions">
+      <button id="meeting-close" class="big-btn">Meeting over</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: den interior decoration ============ -->
+<div id="den-interior-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2 id="den-interior-title">Den interior</h2>
+    <p class="den-interior-info">Choose how the inside is decorated. <b>Each change costs 10 prey.</b></p>
+    <div id="den-interior-choices" class="grid-choices"></div>
+    <div class="modal-actions">
+      <button id="den-interior-close" class="ghost-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: hunt minigame ============ -->
+<div id="hunt-modal" class="modal hidden">
+  <div class="modal-card hunt-card">
+    <h2>The Hunt</h2>
+    <p class="hunt-info">Click prey before it escapes! <span id="hunt-timer">20</span>s — caught: <span id="hunt-score">0</span></p>
+    <div id="hunt-field"></div>
+    <div class="modal-actions">
+      <button id="hunt-quit" class="ghost-btn">Stop hunting</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: inventory / feed ============ -->
+<div id="inv-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2>Fresh-kill pile</h2>
+    <div id="inv-list"></div>
+    <div class="modal-actions">
+      <button id="inv-close" class="ghost-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: cat-on-cat dialog ============ -->
+<div id="talk-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2 id="talk-title">Two cats meet</h2>
+    <div id="talk-body" class="talk-body"></div>
+    <div class="modal-actions">
+      <button id="talk-close" class="big-btn">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: crush prompt ============ -->
+<div id="crush-modal" class="modal hidden">
+  <div class="modal-card">
+    <h2 id="crush-title">A spark...</h2>
+    <p id="crush-intro"></p>
+    <div class="form-row">
+      <label>What should they talk about?</label>
+      <input type="text" id="crush-topic" maxlength="80" placeholder="meeting under the moon" />
+    </div>
+    <div class="modal-actions">
+      <button id="crush-skip" class="ghost-btn">Not now</button>
+      <button id="crush-go" class="big-btn">Go talk</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Modal: cutscene ============ -->
+<div id="scene-modal" class="modal hidden">
+  <div class="modal-card scene-card">
+    <h2 id="scene-title">Under the stars</h2>
+    <div id="scene-stage"></div>
+    <div id="scene-script" class="talk-body"></div>
+    <div class="modal-actions">
+      <button id="scene-close" class="big-btn" disabled>Continue</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>

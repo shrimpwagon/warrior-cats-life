@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <ellipse cx="60" cy="100" rx="50" ry="9" fill="rgba(0,0,0,0.3)"/>
+  <!-- ferny cleft, gray rock and ferns -->
+  <path d="M14 90 L20 50 L40 40 L80 40 L100 50 L106 90 Z" fill="#7a7468"/>
+  <path d="M40 40 L40 90 L80 90 L80 40" fill="#5d574c"/>
+  <ellipse cx="60" cy="74" rx="14" ry="14" fill="#1a1812"/>
+  <!-- ferns -->
+  <path d="M14 84 Q10 70 18 60" stroke="#5d8841" stroke-width="2" fill="none"/>
+  <path d="M16 80 Q12 76 16 70" stroke="#5d8841" stroke-width="2" fill="none"/>
+  <path d="M106 84 Q110 70 102 60" stroke="#5d8841" stroke-width="2" fill="none"/>
+  <path d="M104 80 Q108 76 104 70" stroke="#5d8841" stroke-width="2" fill="none"/>
+  <!-- herb bundle -->
+  <ellipse cx="36" cy="86" rx="6" ry="3" fill="#9bbf52"/>
+  <ellipse cx="84" cy="86" rx="6" ry="3" fill="#c25a3a"/>
+</svg>

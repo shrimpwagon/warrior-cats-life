@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <ellipse cx="60" cy="98" rx="50" ry="9" fill="rgba(0,0,0,0.3)"/>
+  <!-- bramble bush den -->
+  <path d="M14 80 Q14 40 60 30 Q106 40 106 80 L106 90 L14 90 Z" fill="#3a5326"/>
+  <path d="M22 80 Q22 46 60 38 Q98 46 98 80" fill="#4f6e34"/>
+  <!-- leafy texture -->
+  <circle cx="30" cy="60" r="8" fill="#3a5326"/>
+  <circle cx="44" cy="46" r="9" fill="#5d8841"/>
+  <circle cx="60" cy="40" r="10" fill="#3a5326"/>
+  <circle cx="76" cy="46" r="9" fill="#5d8841"/>
+  <circle cx="90" cy="60" r="8" fill="#3a5326"/>
+  <circle cx="38" cy="74" r="7" fill="#5d8841"/>
+  <circle cx="82" cy="74" r="7" fill="#5d8841"/>
+  <!-- entrance -->
+  <ellipse cx="60" cy="80" rx="14" ry="16" fill="#1a1f10"/>
+  <ellipse cx="60" cy="80" rx="10" ry="12" fill="#0a0e06"/>
+</svg>
