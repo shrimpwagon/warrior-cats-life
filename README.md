@@ -6,10 +6,11 @@ Runs entirely in the browser — saves are stored in `localStorage`.
 
 ## Where to play
 
-- **Landing page:** http://warrior-cats-life/
-- **Game page:** http://warrior-cats-life/game
+- **Live (GitHub Pages):** https://shrimpwagon.github.io/warrior-cats-life/
+- **Local landing page:** http://warrior-cats-life/
+- **Local game page:** http://warrior-cats-life/game
 
-The landing page has a "Open the Clearing »" button that takes you straight to `/game`.
+The landing page has a "Open the Clearing »" button that takes you straight to the game.
 
 ## What's in the game
 
