@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <ellipse cx="60" cy="100" rx="44" ry="8" fill="rgba(0,0,0,0.3)"/>
+  <!-- pile of prey -->
+  <ellipse cx="60" cy="84" rx="40" ry="14" fill="#7d5d3a"/>
+  <ellipse cx="42" cy="76" rx="14" ry="6" fill="#9c7d56" transform="rotate(-15 42 76)"/>
+  <ellipse cx="74" cy="74" rx="13" ry="6" fill="#a3835a" transform="rotate(20 74 74)"/>
+  <ellipse cx="60" cy="64" rx="12" ry="6" fill="#7d5d3a"/>
+  <!-- mouse outlines -->
+  <circle cx="34" cy="74" r="3" fill="#3a3530"/>
+  <circle cx="84" cy="76" r="3" fill="#3a3530"/>
+  <circle cx="58" cy="62" r="3" fill="#3a3530"/>
+  <!-- ears -->
+  <polygon points="30,72 28,68 33,70" fill="#7d5d3a"/>
+  <polygon points="36,71 38,67 39,71" fill="#7d5d3a"/>
+  <text x="50" y="38" fill="#f4d27a" font-size="14" font-weight="bold">Pile</text>
+</svg>

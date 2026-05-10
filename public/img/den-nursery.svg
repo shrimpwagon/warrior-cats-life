@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <ellipse cx="60" cy="100" rx="50" ry="9" fill="rgba(0,0,0,0.3)"/>
+  <!-- soft mossy nursery -->
+  <ellipse cx="60" cy="80" rx="44" ry="22" fill="#5d8841"/>
+  <ellipse cx="60" cy="74" rx="40" ry="20" fill="#7aa455"/>
+  <!-- moss tufts -->
+  <circle cx="36" cy="68" r="8" fill="#9bbf52"/>
+  <circle cx="84" cy="68" r="8" fill="#9bbf52"/>
+  <circle cx="60" cy="60" r="9" fill="#c5d3a5"/>
+  <circle cx="48" cy="58" r="6" fill="#9bbf52"/>
+  <circle cx="72" cy="58" r="6" fill="#9bbf52"/>
+  <!-- entrance -->
+  <ellipse cx="60" cy="84" rx="13" ry="9" fill="#3a3530"/>
+  <ellipse cx="60" cy="84" rx="10" ry="6" fill="#1a1812"/>
+  <!-- flowers -->
+  <circle cx="22" cy="76" r="3" fill="#f4d27a"/>
+  <circle cx="98" cy="76" r="3" fill="#f4d27a"/>
+  <circle cx="40" cy="92" r="3" fill="#e88aaa"/>
+  <circle cx="80" cy="92" r="3" fill="#e88aaa"/>
+</svg>

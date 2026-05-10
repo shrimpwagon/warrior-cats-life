@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <ellipse cx="60" cy="100" rx="50" ry="9" fill="rgba(0,0,0,0.3)"/>
+  <!-- small soft mound, rounded -->
+  <ellipse cx="60" cy="80" rx="40" ry="22" fill="#9c7d56"/>
+  <ellipse cx="60" cy="74" rx="36" ry="20" fill="#b39368"/>
+  <!-- soft moss top -->
+  <ellipse cx="60" cy="58" rx="22" ry="8" fill="#9bbf52"/>
+  <circle cx="44" cy="62" r="5" fill="#9bbf52"/>
+  <circle cx="76" cy="62" r="5" fill="#9bbf52"/>
+  <!-- entry -->
+  <ellipse cx="60" cy="82" rx="12" ry="8" fill="#1a1812"/>
+  <ellipse cx="60" cy="82" rx="9" ry="6" fill="#0a0908"/>
+  <!-- tiny pawprint -->
+  <circle cx="28" cy="92" r="2" fill="#f4d27a"/>
+  <circle cx="32" cy="89" r="1.5" fill="#f4d27a"/>
+  <circle cx="36" cy="89" r="1.5" fill="#f4d27a"/>
+  <circle cx="40" cy="92" r="1.5" fill="#f4d27a"/>
+</svg>
